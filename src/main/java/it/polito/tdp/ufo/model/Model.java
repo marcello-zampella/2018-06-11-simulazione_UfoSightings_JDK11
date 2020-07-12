@@ -63,12 +63,32 @@ public class Model {
 	public List<String> getPredecessori() {
 		return predecessori;
 	}
+	
+	private ArrayList<String> predec(String stato){
+		 ArrayList<String> temp=new ArrayList<String>();
+		for(DefaultEdge e: grafo.outgoingEdgesOf(stato)) {
+			temp.add(grafo.getEdgeTarget(e));
+		}
+		return temp;
+		
+	}
+	
+	private ArrayList<String> succ(String stato){
+		 ArrayList<String> temp=new ArrayList<String>();
+		for(DefaultEdge e: grafo.incomingEdgesOf(stato)) {
+			temp.add(grafo.getEdgeSource(e));
+		}	
+		return temp;
+		
+	}
 
 
 	public List<String> genera(String stato) {
-		successori=Graphs.successorListOf(grafo, stato);
-		predecessori=Graphs.predecessorListOf(grafo, stato);
+		successori=this.succ(stato);
+				
 		
+		predecessori=this.predec(stato);
+				
 
 		
 		List<String> result = new ArrayList<String>();
@@ -90,28 +110,28 @@ public class Model {
 	}
 	
 	int max;
-	LinkedList<String> migliore;
+	ArrayList<String> migliore;
 
 
-	public LinkedList<String> cercaSequenza(String stato) {
+	public ArrayList<String> cercaSequenza(String stato) {
 		max=0;
 		int livello=0;
-		LinkedList<String> parziale=new LinkedList<String>();
+		ArrayList<String> parziale=new ArrayList<String>();
 		parziale.add(stato);
 		espandi(livello+1,parziale,stato);
 		return migliore;
 	}
 
 
-	private void espandi(int livello, LinkedList<String> parziale, String stato) {
-		List<String> possibili=Graphs.successorListOf(grafo, stato);
+	private void espandi(int livello, ArrayList<String> parziale, String stato) {
+		List<String> possibili=this.succ(stato);
 		possibili.removeAll(parziale);
 		if(possibili.size()==0) {
 			//condizione di terminazione
 			int temp=parziale.size();
 			if(temp>max) {
 				max=temp;
-				migliore=new LinkedList<String>(parziale);
+				migliore=new ArrayList<String>(parziale);
 			}
 			return;
 		}

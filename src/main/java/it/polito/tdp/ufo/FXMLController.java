@@ -1,6 +1,7 @@
 package it.polito.tdp.ufo;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -79,7 +80,7 @@ public class FXMLController {
     @FXML
     void handleSequenza(ActionEvent event) {
     	String stato=this.boxStato.getValue();
-    	LinkedList<String> percorso=model.cercaSequenza(stato);
+    	ArrayList<String> percorso=model.cercaSequenza(stato);
     	this.txtResult.appendText("\n *** PERCORSO MIGLIORE PARTENDO DA DA "+stato+" ***\n");
     	for(String s:percorso) {
     		this.txtResult.appendText(s+"\n");
